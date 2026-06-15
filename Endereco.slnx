@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Endereco.Api/Endereco.Api.csproj" />
+    <Project Path="src/Endereco.Aplicacao/Endereco.Aplicacao.csproj" />
+    <Project Path="src/Endereco.Dominio/Endereco.Dominio.csproj" />
+    <Project Path="src/Endereco.Infraestrutura/Endereco.Infraestrutura.csproj" />
+  </Folder>
+  <Folder Name="/testes/">
+    <Project Path="testes/Endereco.Testes.Integracao/Endereco.Testes.Integracao.csproj" />
+    <Project Path="testes/Endereco.Testes.Unitarios/Endereco.Testes.Unitarios.csproj" />
+  </Folder>
+</Solution>
