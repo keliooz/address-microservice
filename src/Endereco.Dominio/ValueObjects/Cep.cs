@@ -2,6 +2,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Endereco.Dominio.ValueObjects;
 
+/// <summary>
+/// Representa um CEP brasileiro válido, sempre armazenado com 8 dígitos numéricos.
+/// </summary>
 public sealed record Cep
 {
     private Cep(string codigo)
@@ -13,6 +16,9 @@ public sealed record Cep
 
     public string Formatado => $"{Codigo[..5]}-{Codigo[5..]}";
 
+    /// <summary>
+    /// Cria um CEP válido ou falha quando o valor informado não pode ser normalizado.
+    /// </summary>
     public static Cep Criar(string? valor)
     {
         if (!TentarCriar(valor, out Cep? cep))
@@ -23,6 +29,9 @@ public sealed record Cep
         return cep!;
     }
 
+    /// <summary>
+    /// Tenta criar um CEP a partir de valores com ou sem máscara, sem lançar exceção para entradas inválidas.
+    /// </summary>
     public static bool TentarCriar(string? valor, [NotNullWhen(true)] out Cep? cep)
     {
         cep = null;

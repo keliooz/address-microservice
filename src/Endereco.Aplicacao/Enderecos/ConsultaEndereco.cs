@@ -2,6 +2,9 @@ using Endereco.Dominio.ValueObjects;
 
 namespace Endereco.Aplicacao.Enderecos;
 
+/// <summary>
+/// Orquestra a consulta de endereço e traduz respostas do provedor para estados do caso de uso.
+/// </summary>
 public sealed class ConsultaEndereco(IProvedorEndereco provedor) : IConsultaEndereco
 {
     public async Task<ResultadoConsultaEndereco> BuscarAsync(string cep, CancellationToken cancellationToken = default)

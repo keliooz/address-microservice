@@ -4,6 +4,9 @@ using Microsoft.Extensions.Options;
 
 namespace Endereco.Infraestrutura.Enderecos.Cache;
 
+/// <summary>
+/// Decorator de provedor que cacheia resultados estáveis e evita cachear indisponibilidade temporária.
+/// </summary>
 public sealed class ProvedorEnderecoComCache(IProvedorEnderecoExterno provedorExterno, CacheEnderecoMemoria cache,
                                              ControleConcorrenciaCep controleConcorrencia, IOptions<ConfiguracaoCacheEndereco> configuracao) : IProvedorEndereco
 {

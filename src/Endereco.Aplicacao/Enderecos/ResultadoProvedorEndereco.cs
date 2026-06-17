@@ -2,6 +2,9 @@ using EnderecoDominio = Endereco.Dominio.Enderecos.Endereco;
 
 namespace Endereco.Aplicacao.Enderecos;
 
+/// <summary>
+/// Estados retornados por provedores de endereço antes da tradução para o caso de uso.
+/// </summary>
 public enum StatusProvedorEndereco
 {
     Encontrado,
@@ -10,6 +13,9 @@ public enum StatusProvedorEndereco
     Indisponivel
 }
 
+/// <summary>
+/// Resultado explícito de um provedor, isolando falhas externas dos contratos HTTP da API.
+/// </summary>
 public sealed class ResultadoProvedorEndereco
 {
     private ResultadoProvedorEndereco(StatusProvedorEndereco status, EnderecoDominio? endereco = null)

@@ -10,6 +10,9 @@ using EnderecoDominio = Endereco.Dominio.Enderecos.Endereco;
 
 namespace Endereco.Infraestrutura.Enderecos.ViaCep;
 
+/// <summary>
+/// Integra com o ViaCEP e traduz respostas HTTP/JSON para resultados compreendidos pela aplicação.
+/// </summary>
 public sealed class ProvedorViaCep(HttpClient clienteHttp) : IProvedorEnderecoExterno
 {
     public async Task<ResultadoProvedorEndereco> BuscarAsync(Cep cep, CancellationToken cancellationToken = default)

@@ -1,5 +1,8 @@
 namespace Endereco.Infraestrutura.Enderecos.Cache;
 
+/// <summary>
+/// Coordena consultas simultâneas do mesmo CEP para evitar chamadas duplicadas ao provedor externo.
+/// </summary>
 public sealed class ControleConcorrenciaCep
 {
     private readonly Dictionary<string, BloqueioCep> bloqueios = [];
