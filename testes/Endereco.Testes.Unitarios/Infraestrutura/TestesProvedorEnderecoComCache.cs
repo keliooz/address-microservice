@@ -1,5 +1,6 @@
 using Endereco.Aplicacao.Enderecos;
 using Endereco.Dominio.Enderecos;
+using Endereco.Dominio.ValueObjects;
 using Endereco.Infraestrutura.Enderecos.Cache;
 using Microsoft.Extensions.Options;
 
@@ -14,10 +15,7 @@ public sealed class TestesProvedorEnderecoComCache
     {
         ProvedorExternoSimulado externo = new(CriarResultado(status));
         ProvedorEnderecoComCache provedor = CriarProvedor(externo);
-        Cep cep = new() 
-        { 
-            Codigo = "01001000"
-        };
+        Cep cep = Cep.Criar("01001000");
 
         await provedor.BuscarAsync(cep);
         await provedor.BuscarAsync(cep);
@@ -32,10 +30,7 @@ public sealed class TestesProvedorEnderecoComCache
     {
         ProvedorExternoSimulado externo = new(CriarResultado(status));
         ProvedorEnderecoComCache provedor = CriarProvedor(externo);
-        Cep cep = new() 
-        {
-            Codigo = "01001000" 
-        };
+        Cep cep = Cep.Criar("01001000");
 
         await provedor.BuscarAsync(cep);
         await provedor.BuscarAsync(cep);
@@ -50,10 +45,7 @@ public sealed class TestesProvedorEnderecoComCache
             CriarResultado(StatusProvedorEndereco.Encontrado),
             TimeSpan.FromMilliseconds(50));
         ProvedorEnderecoComCache provedor = CriarProvedor(externo);
-        Cep cep = new()
-        {
-            Codigo = "01001000" 
-        };
+        Cep cep = Cep.Criar("01001000");
 
         await Task.WhenAll(Enumerable.Range(0, 20).Select(_ => provedor.BuscarAsync(cep)));
 
@@ -82,10 +74,7 @@ public sealed class TestesProvedorEnderecoComCache
             StatusProvedorEndereco.Encontrado => ResultadoProvedorEndereco.Encontrado(
                 new Endereco.Dominio.Enderecos.Endereco
                 {
-                    Cep = new Cep 
-                    { 
-                        Codigo = "01001-000"
-                    }
+                    Cep = Cep.Criar("01001-000")
                 }),
             StatusProvedorEndereco.CepInvalido => ResultadoProvedorEndereco.CepInvalido(),
             StatusProvedorEndereco.NaoEncontrado => ResultadoProvedorEndereco.NaoEncontrado(),

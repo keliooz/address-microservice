@@ -1,5 +1,6 @@
 using Endereco.Aplicacao.Enderecos;
 using Endereco.Dominio.Enderecos;
+using Endereco.Dominio.ValueObjects;
 
 namespace Endereco.Testes.Unitarios.Aplicacao;
 
@@ -35,7 +36,7 @@ public sealed class TestesConsultaEndereco
     {
         var esperado = new Endereco.Dominio.Enderecos.Endereco
         {
-            Cep = new Cep { Codigo = "01001000" },
+            Cep = Cep.Criar("01001000"),
             Logradouro = "Praça da Sé",
             Bairro = new Bairro { Nome = "Sé" },
             Cidade = new Cidade { Nome = "São Paulo", CodigoIbge = "3550308" },

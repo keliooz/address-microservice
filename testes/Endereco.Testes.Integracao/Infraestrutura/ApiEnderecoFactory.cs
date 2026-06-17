@@ -1,5 +1,6 @@
 using Endereco.Aplicacao.Enderecos;
 using Endereco.Dominio.Enderecos;
+using Endereco.Dominio.ValueObjects;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;

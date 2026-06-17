@@ -1,5 +1,6 @@
 using Endereco.Api.Contratos.Responses;
 using Endereco.Dominio.Enderecos;
+using Endereco.Dominio.ValueObjects;
 
 namespace Endereco.Testes.Unitarios.Api;
 
@@ -10,7 +11,7 @@ public sealed class TestesBuscarEnderecoResponse
     {
         Endereco.Dominio.Enderecos.Endereco endereco = new()
         {
-            Cep = new Cep { Codigo = "01001-000" },
+            Cep = Cep.Criar("01001-000"),
             Logradouro = "Praça da Sé",
             Complemento = "lado ímpar",
             Bairro = new Bairro { Nome = "Sé" },

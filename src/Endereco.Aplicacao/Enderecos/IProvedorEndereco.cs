@@ -1,4 +1,4 @@
-using Endereco.Dominio.Enderecos;
+using Endereco.Dominio.ValueObjects;
 
 namespace Endereco.Aplicacao.Enderecos;
 

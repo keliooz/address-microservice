@@ -1,5 +1,5 @@
 using Endereco.Aplicacao.Enderecos;
-using Endereco.Dominio.Enderecos;
+using Endereco.Dominio.ValueObjects;
 using Microsoft.Extensions.Options;
 
 namespace Endereco.Infraestrutura.Enderecos.Cache;

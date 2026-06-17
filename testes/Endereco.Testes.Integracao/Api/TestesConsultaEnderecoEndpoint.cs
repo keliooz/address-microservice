@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using Endereco.Api.Contratos.Responses;
 using Endereco.Aplicacao.Enderecos;
 using Endereco.Dominio.Enderecos;
+using Endereco.Dominio.ValueObjects;
 using Endereco.Testes.Integracao.Infraestrutura;
 using Microsoft.AspNetCore.Mvc;
 
@@ -111,7 +112,7 @@ public sealed class TestesConsultaEnderecoEndpoint
     private static Dominio.Enderecos.Endereco CriarEndereco() =>
         new()
         {
-            Cep = new Cep { Codigo = "01001-000" },
+            Cep = Cep.Criar("01001-000"),
             Logradouro = "Praça da Sé",
             Bairro = new Bairro { Nome = "Sé" },
             Cidade = new Cidade { Nome = "São Paulo", CodigoIbge = "3550308" },

@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using Endereco.Aplicacao.Enderecos;
 using Endereco.Dominio.Enderecos;
+using Endereco.Dominio.ValueObjects;
 using Endereco.Infraestrutura.Enderecos.ViaCep;
 
 namespace Endereco.Testes.Unitarios.Infraestrutura;
@@ -27,10 +28,11 @@ public sealed class TestesProvedorViaCep
             """;
         ProvedorViaCepTestavel provedor = CriarProvedor(HttpStatusCode.OK, json);
 
-        ResultadoProvedorEndereco resultado = await provedor.BuscarAsync(new Cep { Codigo = "01001000" });
+        ResultadoProvedorEndereco resultado = await provedor.BuscarAsync(Cep.Criar("01001000"));
 
         Assert.Equal(StatusProvedorEndereco.Encontrado, resultado.Status);
-        Assert.Equal("01001-000", resultado.Endereco!.Cep.Codigo);
+        Assert.Equal("01001000", resultado.Endereco!.Cep.Codigo);
+        Assert.Equal("01001-000", resultado.Endereco.Cep.Formatado);
         Assert.Equal("Praça da Sé", resultado.Endereco.Logradouro);
         Assert.Equal("Sé", resultado.Endereco.Bairro!.Nome);
         Assert.Equal("São Paulo", resultado.Endereco.Cidade.Nome);
@@ -50,7 +52,7 @@ public sealed class TestesProvedorViaCep
         ProvedorViaCepTestavel provedor = CriarProvedor(HttpStatusCode.OK, """{"erro": true}""");
 
         ResultadoProvedorEndereco resultado =
-            await provedor.BuscarAsync(new Cep { Codigo = "00000000" });
+            await provedor.BuscarAsync(Cep.Criar("00000000"));
 
         Assert.Equal(StatusProvedorEndereco.NaoEncontrado, resultado.Status);
         Assert.Null(resultado.Endereco);
@@ -62,18 +64,18 @@ public sealed class TestesProvedorViaCep
         ProvedorViaCepTestavel provedor = CriarProvedor(HttpStatusCode.InternalServerError, string.Empty);
 
         ResultadoProvedorEndereco resultado = 
-            await provedor.BuscarAsync(new Cep { Codigo = "01001000" });
+            await provedor.BuscarAsync(Cep.Criar("01001000"));
 
         Assert.Equal(StatusProvedorEndereco.Indisponivel, resultado.Status);
     }
 
     [Fact]
-    public async Task BuscarAsync_QuandoCepInvalido_RetornaCepInvalido()
+    public async Task BuscarAsync_QuandoViaCepRetornaBadRequest_RetornaCepInvalido()
     {
         ProvedorViaCepTestavel provedor = CriarProvedor(HttpStatusCode.BadRequest, string.Empty);
 
         ResultadoProvedorEndereco resultado = 
-            await provedor.BuscarAsync(new Cep { Codigo = "invalido" });
+            await provedor.BuscarAsync(Cep.Criar("01001000"));
 
         Assert.Equal(StatusProvedorEndereco.CepInvalido, resultado.Status);
     }
@@ -97,7 +99,7 @@ public sealed class TestesProvedorViaCep
             """;
         ProvedorViaCepTestavel provedor = CriarProvedor(HttpStatusCode.OK, json);
 
-        ResultadoProvedorEndereco resultado = await provedor.BuscarAsync(new Cep { Codigo = "01001000" });
+        ResultadoProvedorEndereco resultado = await provedor.BuscarAsync(Cep.Criar("01001000"));
 
         Assert.Null(resultado.Endereco!.Logradouro);
         Assert.Null(resultado.Endereco.Complemento);

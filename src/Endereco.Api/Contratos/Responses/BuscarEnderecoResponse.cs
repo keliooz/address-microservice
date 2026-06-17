@@ -27,7 +27,7 @@ public sealed class BuscarEnderecoResponse
     public static BuscarEnderecoResponse Criar(EnderecoDominio endereco) =>
         new()
         {
-            Cep = endereco.Cep.Codigo,
+            Cep = endereco.Cep.ToString(),
             Logradouro = endereco.Logradouro,
             Complemento = endereco.Complemento,
             Bairro = endereco.Bairro?.Nome,

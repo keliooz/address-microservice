@@ -1,8 +1,10 @@
+using Endereco.Dominio.ValueObjects;
+
 namespace Endereco.Dominio.Enderecos;
 
 public sealed class Endereco
 {
-    public Cep Cep { get; set; } = new();
+    public required Cep Cep { get; set; }
 
     public string? Logradouro { get; set; }
 

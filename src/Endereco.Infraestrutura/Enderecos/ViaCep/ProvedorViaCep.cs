@@ -1,5 +1,6 @@
 using Endereco.Aplicacao.Enderecos;
 using Endereco.Dominio.Enderecos;
+using Endereco.Dominio.ValueObjects;
 using Endereco.Infraestrutura.Enderecos.ViaCep.Requests;
 using Endereco.Infraestrutura.Enderecos.ViaCep.Responses;
 using System.Net;
@@ -46,7 +47,12 @@ public sealed class ProvedorViaCep(HttpClient clienteHttp) : IProvedorEnderecoEx
                 return ResultadoProvedorEndereco.NaoEncontrado();
             }
 
-            return ResultadoProvedorEndereco.Encontrado(MapearEndereco(respostaViaCep));
+            if (!Cep.TentarCriar(respostaViaCep.Cep, out Cep? cepResposta))
+            {
+                return Indisponivel();
+            }
+
+            return ResultadoProvedorEndereco.Encontrado(MapearEndereco(respostaViaCep, cepResposta));
         }
         catch (HttpRequestException)
         {
@@ -62,10 +68,10 @@ public sealed class ProvedorViaCep(HttpClient clienteHttp) : IProvedorEnderecoEx
         }
     }
 
-    private static EnderecoDominio MapearEndereco(ConsultaViaCepResponse resposta) =>
+    private static EnderecoDominio MapearEndereco(ConsultaViaCepResponse resposta, Cep cep) =>
         new()
         {
-            Cep = new Cep { Codigo = resposta.Cep ?? string.Empty },
+            Cep = cep,
             Logradouro = NuloQuandoVazio(resposta.Logradouro),
             Complemento = NuloQuandoVazio(resposta.Complemento),
             Bairro = string.IsNullOrEmpty(resposta.Bairro)
