@@ -12,10 +12,21 @@ public static class InjecaoDependencia
     public static IServiceCollection AdicionarInfraestrutura(this IServiceCollection servicos,
                                                              IConfiguration configuracao)
     {
+        servicos.AdicionarOpcoes(configuracao);
+        servicos.AdicionarServicosInternos();
+        servicos.AdicionarProvedorEndereco();
+
+        return servicos;
+    }
+
+    private static IServiceCollection AdicionarOpcoes(this IServiceCollection servicos,
+                                                      IConfiguration configuracao)
+    {
         servicos.AddOptions<ConfiguracaoCacheEndereco>()
             .Bind(configuracao.GetSection(ConfiguracaoCacheEndereco.Secao))
             .ValidateDataAnnotations()
             .ValidateOnStart();
+
         servicos.AddOptions<ConfiguracaoViaCep>()
             .Bind(configuracao.GetSection(ConfiguracaoViaCep.Secao))
             .ValidateDataAnnotations()
@@ -25,9 +36,19 @@ public static class InjecaoDependencia
                 "ViaCep:UrlBase deve ser uma URL HTTPS absoluta.")
             .ValidateOnStart();
 
+        return servicos;
+    }
+
+    private static IServiceCollection AdicionarServicosInternos(this IServiceCollection servicos)
+    {
         servicos.AddSingleton<CacheEnderecoMemoria>();
         servicos.AddSingleton<ControleConcorrenciaCep>();
 
+        return servicos;
+    }
+
+    private static IServiceCollection AdicionarProvedorEndereco(this IServiceCollection servicos)
+    {
         servicos.AddHttpClient<IProvedorEnderecoExterno, ProvedorViaCep>((provedor, cliente) =>
         {
             ConfiguracaoViaCep opcoes = provedor.GetRequiredService<IOptions<ConfiguracaoViaCep>>().Value;
@@ -35,6 +56,7 @@ public static class InjecaoDependencia
             cliente.BaseAddress = new Uri(opcoes.UrlBase);
             cliente.Timeout = TimeSpan.FromSeconds(opcoes.TempoLimiteSegundos);
         });
+
         servicos.AddScoped<IProvedorEndereco, ProvedorEnderecoComCache>();
 
         return servicos;
